@@ -2,6 +2,8 @@
 from __future__ import print_function
 from flask import Flask
 import tensorflow as tf
+import numpy as np
+import random as r
 import os
 
 '''
@@ -27,12 +29,17 @@ port = int(os.environ["PORT"])
 
 @app.route('/')
 def hello_tensor():
-    hello = tf.constant('Hello, TensorFlow!  You were just callled from a TensorFlow Session')
+    hello = tf.constant('Hello, TensorFlow!  You were just callled from a TensorFlow Session.  Have a numpy array: ')
     sess = tf.Session()
 
-    response = sess.run(hello);
+    array = np.array([getRandom(),getRandom(),getRandom()])
 
-    return response
+    response = sess.run(hello)
+
+    return response + np.array2string(array)
+
+def getRandom():
+    return r.randint(1,100)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)
