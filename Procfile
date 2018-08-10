@@ -1,1 +1,1 @@
-web: python show-all-env-vars.py
+web: python python-tensorflow.py
