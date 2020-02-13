@@ -6,12 +6,6 @@ import numpy as np
 import random as r
 import os
 
-'''
-HelloWorld example using TensorFlow library.
-Author: Aymeric Damien
-Project: https://github.com/aymericdamien/TensorFlow-Examples/
-'''
-
 # Simple hello world using TensorFlow
 
 # Create a Constant op
@@ -25,19 +19,21 @@ Project: https://github.com/aymericdamien/TensorFlow-Examples/
 # Run the op
 app = Flask(__name__)
 
-port = int(os.environ["PORT"])
+port = int(os.environ.get("PORT",8080))
 
 @app.route('/')
 def hello_tensor():
     hello = tf.constant('Hello, TensorFlow!  You were just callled from a TensorFlow Session.  Have a numpy array: ')
-    sess = tf.Session()
+    sess = tf.compat.v1.Session()
 
     array = np.array([getRandom(),getRandom(),getRandom()])
 
     response = sess.run(hello)
+    sess.close()
 
-    return response + np.array2string(array)
+    return str(response.decode('ASCII') + np.array2string(array))
 
+@app.route('/rand')
 def getRandom():
     return r.randint(1,100)
 
